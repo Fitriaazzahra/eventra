@@ -150,6 +150,7 @@
             </div>
         </section>
 
+        <!-- SECTION SPEAKERS -->
         <section class="eventra-home-section eventra-home-section-speakers">
             <div class="eventra-home-section-header eventra-home-section-header-inline">
                 <div>
@@ -161,7 +162,16 @@
                 @foreach ($speakers as $speaker)
                     <div class="eventra-home-speaker-card">
                         <div class="eventra-home-speaker-avatar">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80" alt="{{ $speaker->name }}" />
+                            @if (!empty($speaker->photo))
+                                <img src="{{ asset('storage/' . $speaker->photo) }}" alt="{{ $speaker->name }}" />
+                            @else
+                                <div class="eventra-avatar-placeholder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                            @endif
                         </div>
                         <div class="eventra-home-speaker-body">
                             <h3>{{ $speaker->name }}</h3>

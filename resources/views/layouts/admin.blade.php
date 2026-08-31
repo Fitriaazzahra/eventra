@@ -61,7 +61,6 @@
                         <span class="dot"></span>
                     </button>
 
-                    <!-- User Link ke Halaman Profil Khusus -->
                     <a href="{{ route('admin.profile.index', ['locale' => app()->getLocale()]) }}" class="eventra-user" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
                         @if (auth()->user()->avatar && \Illuminate\Support\Facades\Storage::disk('nas')->exists(auth()->user()->avatar))
                             <img src="{{ route('admin.profile.avatar.show', ['locale' => app()->getLocale()]) }}" 
@@ -82,7 +81,9 @@
 
                     <form method="POST" action="{{ route('admin.logout', ['locale' => app()->getLocale()]) }}">
                         @csrf
-                        <button type="submit" class="eventra-logout">{{ __('messages.logout') }}</button>
+                        <button type="submit" class="eventra-logout" style="background-color: #ef4444 !important; color: #ffffff !important; border: none !important; padding: 6px 16px !important; border-radius: 8px !important; font-weight: 600 !important; font-size: 13px !important; cursor: pointer !important; transition: background-color 0.2s !important;" onmouseover="this.style.backgroundColor='#dc2626'" onmouseout="this.style.backgroundColor='#ef4444'">
+                            {{ __('messages.logout') }}
+                        </button>
                     </form>
                 </div>
             </header>
@@ -98,7 +99,6 @@
         </div>
     </div>
 
-    <!-- SweetAlert2 CDN & Handler Hapus Modern -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -141,8 +141,21 @@
         });
     </script>
 
-    <!-- Custom Styling untuk Popup SweetAlert2 agar Serasi dengan Theme Eventra -->
     <style>
+        .eventra-logout {
+            background-color: #ef4444 !important;
+            color: #ffffff !important;
+            border: none !important;
+            padding: 6px 16px !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            font-size: 13px !important;
+            cursor: pointer !important;
+            transition: background-color 0.2s !important;
+        }
+        .eventra-logout:hover {
+            background-color: #dc2626 !important;
+        }
         .eventra-sweet-popup {
             border-radius: 20px !important;
             padding: 24px !important;

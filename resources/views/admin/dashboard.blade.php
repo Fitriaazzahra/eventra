@@ -13,6 +13,16 @@
             ['label' => app()->getLocale() === 'id' ? 'Venues' : 'Venues', 'value' => $stats['venues'], 'tone' => 'slate', 'icon' => 'pin'],
             ['label' => app()->getLocale() === 'id' ? 'Documents' : 'Documents', 'value' => $stats['documents'], 'tone' => 'green', 'icon' => 'file'],
         ];
+
+        // Palette gradasi warna bervariasi tanpa efek border/shadow
+        $colors = [
+            'linear-gradient(180deg, #6366f1 0%, #818cf8 100%)', // Indigo
+            'linear-gradient(180deg, #06b6d4 0%, #38bdf8 100%)', // Cyan / Sky
+            'linear-gradient(180deg, #10b981 0%, #34d399 100%)', // Emerald
+            'linear-gradient(180deg, #f59e0b 0%, #fbbf24 100%)', // Amber
+            'linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%)', // Purple
+            'linear-gradient(180deg, #ec4899 0%, #f472b6 100%)', // Pink Highlight (Agustus)
+        ];
     @endphp
 
     <div class="eventra-dashboard-shell">
@@ -25,8 +35,8 @@
 
         <div class="eventra-dashboard-grid">
             @foreach ($cards as $card)
-                <div class="eventra-dashboard-card eventra-dashboard-card-{{ $card['tone'] }}">
-                    <div class="eventra-dashboard-icon">
+                <div class="eventra-dashboard-card eventra-dashboard-card-{{ $card['tone'] }}" style="box-shadow: none !important; border: none !important;">
+                    <div class="eventra-dashboard-icon" style="box-shadow: none !important; border: none !important;">
                         @switch($card['icon'])
                             @case('calendar')
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
@@ -57,8 +67,8 @@
             @endforeach
         </div>
 
-        <div class="eventra-chart-panel">
-            <div class="eventra-chart-card">
+        <div class="eventra-chart-panel" style="border: none !important; box-shadow: none !important; background: transparent !important;">
+            <div class="eventra-chart-card" style="border: none !important; box-shadow: none !important;">
                 <div class="eventra-chart-header">
                     <div>
                         <p>{{ app()->getLocale() === 'id' ? 'Aktivitas acara' : 'Event activity' }}</p>
@@ -67,14 +77,15 @@
                     <span>{{ app()->getLocale() === 'id' ? '+12,4%' : '+12.4%' }}</span>
                 </div>
 
-                <div class="eventra-chart-bars">
-                    @foreach ($monthlyEvents as $month)
+                <div class="eventra-chart-bars" style="border: none !important; background: none !important; background-image: none !important;">
+                    @foreach ($monthlyEvents as $index => $month)
                         @php
                             $height = $maxMonthlyValue > 0 ? max(18, ($month['value'] / $maxMonthlyValue) * 100) : 18;
+                            $barColor = $colors[$index % count($colors)]; 
                         @endphp
                         <div class="eventra-chart-column">
-                            <div class="eventra-chart-bar-wrap">
-                                <span class="eventra-chart-bar" style="height: {{ $height }}%"></span>
+                            <div class="eventra-chart-bar-wrap" style="border: none !important; box-shadow: none !important; background: transparent !important;">
+                                <span class="eventra-chart-bar" style="height: {{ $height }}%; background: {{ $barColor }}; border: none !important; outline: none !important; box-shadow: none !important;"></span>
                             </div>
                             <small>{{ $month['label'] }}</small>
                         </div>

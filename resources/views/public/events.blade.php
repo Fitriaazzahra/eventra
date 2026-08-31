@@ -20,43 +20,22 @@
             </button>
         </div>
 
-        <div class="eventra-events-layout">
-            <aside class="eventra-events-sidebar">
-                <div class="eventra-events-sidebar-head">
-                    <h2>{{ app()->getLocale() === 'id' ? 'Filter' : 'Filters' }}</h2>
-                    <button type="button">{{ app()->getLocale() === 'id' ? 'Reset' : 'Reset' }}</button>
-                </div>
-
-                <div class="eventra-events-filter-group">
-                    <label>{{ app()->getLocale() === 'id' ? 'Kategori' : 'Category' }}</label>
-                    <div class="eventra-events-radio-list">
-                        @foreach ($categories as $category)
-                            <label class="eventra-events-radio-item">
-                                <input type="radio" name="category" />
-                                <span>{{ $category->name }}</span>
-                            </label>
-                        @endforeach
-                    </div>
-                </div>
-            </aside>
-
-            <div class="eventra-events-results">
-                <div class="eventra-events-results-head">
-                    <p>{{ app()->getLocale() === 'id' ? 'Menampilkan 9 acara' : 'Showing 9 events' }}</p>
-                </div>
-
-                <div class="eventra-events-grid">
-                    @foreach ($events as $event)
-                        <x-public.event-card :event="$event" />
-                    @endforeach
-                </div>
-
-                @if ($events->hasPages())
-                    <div class="eventra-events-pagination">
-                        {{ $events->links() }}
-                    </div>
-                @endif
+        <div class="eventra-events-results">
+            <div class="eventra-events-results-head">
+                <p>{{ app()->getLocale() === 'id' ? 'Menampilkan ' . $events->count() . ' acara' : 'Showing ' . $events->count() . ' events' }}</p>
             </div>
+
+            <div class="eventra-events-grid">
+                @foreach ($events as $event)
+                    <x-public.event-card :event="$event" />
+                @endforeach
+            </div>
+
+            @if ($events->hasPages())
+                <div class="eventra-events-pagination">
+                    {{ $events->links() }}
+                </div>
+            @endif
         </div>
     </main>
 @endsection

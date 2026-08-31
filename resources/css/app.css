@@ -3957,3 +3957,45 @@ select {
   box-shadow: none !important;
 }
 
+.logout-btn {
+  background: transparent;
+  color: #dc2626; /* Warna merah */
+  border: 1px solid #fecaca;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #fee2e2; /* Merah soft saat kursor menempel */
+  color: #b91c1c;
+}
+
+.eventra-speaker-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #f3e8ff; /* Ungu soft */
+  color: #7c3aed; /* Warna teks ungu utama */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 auto 1rem auto;
+}
+
+.eventra-avatar-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+  color: #7c3aed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.12);
+}

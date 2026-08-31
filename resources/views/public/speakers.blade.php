@@ -21,11 +21,7 @@
                 @forelse ($speakers as $speaker)
                     <article class="eventra-speaker-card">
                         <div class="eventra-speaker-avatar">
-                            @if ($speaker->photo)
-                                <img src="{{ asset('storage/' . $speaker->photo) }}" alt="{{ $speaker->name }}">
-                            @else
-                                <span>{{ strtoupper(substr($speaker->name, 0, 2)) }}</span>
-                            @endif
+                            <span>{{ strtoupper(substr($speaker->name, 0, 2)) }}</span>
                         </div>
 
                         <div class="eventra-speaker-body">
