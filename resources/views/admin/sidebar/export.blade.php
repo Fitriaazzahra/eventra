@@ -15,7 +15,11 @@
         <div class="eventra-table-wrap">
             <div class="eventra-empty-state">
                 <p>{{ app()->getLocale() === 'id' ? 'Fitur ekspor data siap digunakan.' : 'Export feature is ready to use.' }}</p>
-                <button type="button" class="eventra-add-btn eventra-add-btn-inline">{{ __('messages.export') }}</button>
+                
+                {{-- Diubah menjadi link unduh Excel --}}
+                <a href="{{ route('admin.export.download') }}" class="eventra-add-btn eventra-add-btn-inline" style="display: inline-block; text-decoration: none;">
+                    {{ __('messages.export') }}
+                </a>
             </div>
         </div>
     </div>

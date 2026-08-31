@@ -11,8 +11,14 @@ class Participant extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'participant_code', 'name', 'email', 'phone', 'event_id',
-        'ticket_type', 'registration_date', 'status',
+        'participant_code', 
+        'name', 
+        'email', 
+        'phone', 
+        'event_id',
+        'ticket_type', 
+        'registration_date', 
+        'status',
     ];
 
     protected $casts = [

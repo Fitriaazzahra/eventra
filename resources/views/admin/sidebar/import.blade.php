@@ -13,10 +13,22 @@
 
     <div class="eventra-form-card">
         <div class="eventra-table-wrap">
-            <div class="eventra-empty-state">
-                <p>{{ app()->getLocale() === 'id' ? 'Fitur impor data siap digunakan.' : 'Import feature is ready to use.' }}</p>
-                <button type="button" class="eventra-add-btn eventra-add-btn-inline">{{ __('messages.import') }}</button>
-            </div>
+            {{-- Form untuk upload file --}}
+            <form action="{{ route('admin.import.process') }}" method="POST" enctype="multipart/form-data" class="eventra-empty-state" style="padding: 40px 20px;">
+                @csrf
+                
+                <p class="mb-3">{{ app()->getLocale() === 'id' ? 'Pilih file Excel atau CSV untuk mengimpor data:' : 'Select an Excel or CSV file to import data:' }}</p>
+                
+                {{-- Input File --}}
+                <div class="mb-4">
+                    <input type="file" name="file" accept=".xlsx, .xls, .csv" required style="padding: 10px; border: 1px dashed #dcd0ff; border-radius: 8px; background-color: #fcfaff; cursor: pointer;">
+                </div>
+
+                {{-- Tombol Submit --}}
+                <button type="submit" class="eventra-add-btn eventra-add-btn-inline">
+                    {{ __('messages.import') }}
+                </button>
+            </form>
         </div>
     </div>
 @endsection

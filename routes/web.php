@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\SidebarPageController;
+use App\Http\Controllers\Admin\ImportController; // Tambahkan ini
 use App\Http\Controllers\Public\PublicPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,8 +68,12 @@ Route::prefix('{locale}')->where(['locale' => 'id|en'])->middleware('setlocale')
             Route::put('users/{user}', [SidebarPageController::class, 'updateUser'])->name('users.update');
             Route::delete('users/{user}', [SidebarPageController::class, 'destroyUser'])->name('users.destroy');
 
+            // Import & Export Data
             Route::get('import', [SidebarPageController::class, 'import'])->name('import.index');
+            Route::post('import', [ImportController::class, 'processImport'])->name('import.process'); // Diperbaiki
             Route::get('export', [SidebarPageController::class, 'export'])->name('export.index');
+            Route::get('export/download', [ImportController::class, 'export'])->name('export.download');
+            
             Route::get('settings', [SidebarPageController::class, 'settings'])->name('settings.index');
             Route::post('settings', [SidebarPageController::class, 'updateSettings'])->name('settings.update');
         });
