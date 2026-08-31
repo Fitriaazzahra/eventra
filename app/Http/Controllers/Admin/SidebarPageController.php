@@ -12,25 +12,29 @@ use App\Models\SiteMenu;
 use App\Models\Speaker;
 use App\Models\User;
 use App\Models\Venue;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class SidebarPageController extends Controller
 {
-    public function categories()
+    /* =========================================================================
+     * CATEGORIES
+     * ========================================================================= */
+
+    public function categories(string $locale)
     {
         $categories = EventCategory::orderBy('name')->get();
 
         return view('admin.sidebar.categories', compact('categories'));
     }
 
-    public function createCategory()
+    public function createCategory(string $locale)
     {
         return view('admin.sidebar.categories.create');
     }
 
-    public function storeCategory(Request $request)
+    public function storeCategory(Request $request, string $locale)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -40,8 +44,8 @@ class SidebarPageController extends Controller
 
         EventCategory::create($data);
 
-        return redirect()->route('admin.categories.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Kategori berhasil dibuat.' : 'Category created successfully.');
+        return redirect()->route('admin.categories.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Kategori berhasil dibuat.' : 'Category created successfully.');
     }
 
     public function editCategory(string $locale, EventCategory $category)
@@ -59,31 +63,35 @@ class SidebarPageController extends Controller
 
         $category->update($data);
 
-        return redirect()->route('admin.categories.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Kategori berhasil diperbarui.' : 'Category updated successfully.');
+        return redirect()->route('admin.categories.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Kategori berhasil diperbarui.' : 'Category updated successfully.');
     }
 
     public function destroyCategory(string $locale, EventCategory $category)
     {
         $category->delete();
 
-        return redirect()->route('admin.categories.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Kategori berhasil dihapus.' : 'Category deleted successfully.');
+        return redirect()->route('admin.categories.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Kategori berhasil dihapus.' : 'Category deleted successfully.');
     }
 
-    public function speakers()
+    /* =========================================================================
+     * SPEAKERS
+     * ========================================================================= */
+
+    public function speakers(string $locale)
     {
         $speakers = Speaker::orderBy('name')->get();
 
         return view('admin.sidebar.speakers', compact('speakers'));
     }
 
-    public function createSpeaker()
+    public function createSpeaker(string $locale)
     {
         return view('admin.sidebar.speakers.create');
     }
 
-    public function storeSpeaker(Request $request)
+    public function storeSpeaker(Request $request, string $locale)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -98,8 +106,8 @@ class SidebarPageController extends Controller
 
         Speaker::create($data);
 
-        return redirect()->route('admin.speakers.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Pembicara berhasil dibuat.' : 'Speaker created successfully.');
+        return redirect()->route('admin.speakers.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Pembicara berhasil dibuat.' : 'Speaker created successfully.');
     }
 
     public function editSpeaker(string $locale, Speaker $speaker)
@@ -122,31 +130,35 @@ class SidebarPageController extends Controller
 
         $speaker->update($data);
 
-        return redirect()->route('admin.speakers.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Pembicara berhasil diperbarui.' : 'Speaker updated successfully.');
+        return redirect()->route('admin.speakers.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Pembicara berhasil diperbarui.' : 'Speaker updated successfully.');
     }
 
     public function destroySpeaker(string $locale, Speaker $speaker)
     {
         $speaker->delete();
 
-        return redirect()->route('admin.speakers.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Pembicara berhasil dihapus.' : 'Speaker deleted successfully.');
+        return redirect()->route('admin.speakers.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Pembicara berhasil dihapus.' : 'Speaker deleted successfully.');
     }
 
-    public function venues()
+    /* =========================================================================
+     * VENUES
+     * ========================================================================= */
+
+    public function venues(string $locale)
     {
         $venues = Venue::orderBy('name')->get();
 
         return view('admin.sidebar.venues', compact('venues'));
     }
 
-    public function createVenue()
+    public function createVenue(string $locale)
     {
         return view('admin.sidebar.venues.create');
     }
 
-    public function storeVenue(Request $request)
+    public function storeVenue(Request $request, string $locale)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -163,8 +175,8 @@ class SidebarPageController extends Controller
 
         Venue::create($data);
 
-        return redirect()->route('admin.venues.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Venue berhasil dibuat.' : 'Venue created successfully.');
+        return redirect()->route('admin.venues.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Venue berhasil dibuat.' : 'Venue created successfully.');
     }
 
     public function editVenue(string $locale, Venue $venue)
@@ -189,33 +201,37 @@ class SidebarPageController extends Controller
 
         $venue->update($data);
 
-        return redirect()->route('admin.venues.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Venue berhasil diperbarui.' : 'Venue updated successfully.');
+        return redirect()->route('admin.venues.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Venue berhasil diperbarui.' : 'Venue updated successfully.');
     }
 
     public function destroyVenue(string $locale, Venue $venue)
     {
         $venue->delete();
 
-        return redirect()->route('admin.venues.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Venue berhasil dihapus.' : 'Venue deleted successfully.');
+        return redirect()->route('admin.venues.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Venue berhasil dihapus.' : 'Venue deleted successfully.');
     }
 
-    public function participants()
+    /* =========================================================================
+     * PARTICIPANTS
+     * ========================================================================= */
+
+    public function participants(string $locale)
     {
         $participants = Participant::with('event')->orderBy('registration_date', 'desc')->get();
 
         return view('admin.sidebar.participants', compact('participants'));
     }
 
-    public function createParticipant()
+    public function createParticipant(string $locale)
     {
         $events = Event::orderBy('name')->get();
 
         return view('admin.sidebar.participants.create', compact('events'));
     }
 
-    public function storeParticipant(Request $request)
+    public function storeParticipant(Request $request, string $locale)
     {
         $data = $request->validate([
             'participant_code' => ['required', 'string', 'max:50', 'unique:participants,participant_code'],
@@ -230,8 +246,8 @@ class SidebarPageController extends Controller
 
         Participant::create($data);
 
-        return redirect()->route('admin.participants.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Peserta berhasil dibuat.' : 'Participant created successfully.');
+        return redirect()->route('admin.participants.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Peserta berhasil dibuat.' : 'Participant created successfully.');
     }
 
     public function editParticipant(string $locale, Participant $participant)
@@ -256,33 +272,37 @@ class SidebarPageController extends Controller
 
         $participant->update($data);
 
-        return redirect()->route('admin.participants.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Peserta berhasil diperbarui.' : 'Participant updated successfully.');
+        return redirect()->route('admin.participants.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Peserta berhasil diperbarui.' : 'Participant updated successfully.');
     }
 
     public function destroyParticipant(string $locale, Participant $participant)
     {
         $participant->delete();
 
-        return redirect()->route('admin.participants.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Peserta berhasil dihapus.' : 'Participant deleted successfully.');
+        return redirect()->route('admin.participants.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Peserta berhasil dihapus.' : 'Participant deleted successfully.');
     }
 
-    public function documents()
+    /* =========================================================================
+     * DOCUMENTS
+     * ========================================================================= */
+
+    public function documents(string $locale)
     {
         $documents = Document::with('event')->orderBy('created_at', 'desc')->get();
 
         return view('admin.sidebar.documents', compact('documents'));
     }
 
-    public function createDocument()
+    public function createDocument(string $locale)
     {
         $events = Event::orderBy('name')->get();
 
         return view('admin.sidebar.documents.create', compact('events'));
     }
 
-    public function storeDocument(Request $request)
+    public function storeDocument(Request $request, string $locale)
     {
         $data = $request->validate([
             'event_id' => ['nullable', 'exists:events,id'],
@@ -304,8 +324,8 @@ class SidebarPageController extends Controller
             'uploaded_by' => auth()->id(),
         ]);
 
-        return redirect()->route('admin.documents.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Dokumen berhasil diupload.' : 'Document uploaded successfully.');
+        return redirect()->route('admin.documents.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Dokumen berhasil diupload.' : 'Document uploaded successfully.');
     }
 
     public function editDocument(string $locale, Document $document)
@@ -339,31 +359,35 @@ class SidebarPageController extends Controller
 
         $document->update($payload);
 
-        return redirect()->route('admin.documents.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Dokumen berhasil diperbarui.' : 'Document updated successfully.');
+        return redirect()->route('admin.documents.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Dokumen berhasil diperbarui.' : 'Document updated successfully.');
     }
 
     public function destroyDocument(string $locale, Document $document)
     {
         $document->delete();
 
-        return redirect()->route('admin.documents.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Dokumen berhasil dihapus.' : 'Document deleted successfully.');
+        return redirect()->route('admin.documents.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Dokumen berhasil dihapus.' : 'Document deleted successfully.');
     }
 
-    public function users()
+    /* =========================================================================
+     * USERS
+     * ========================================================================= */
+
+    public function users(string $locale)
     {
         $users = User::orderBy('created_at', 'desc')->get();
 
         return view('admin.users.index', compact('users'));
     }
 
-    public function createUser()
+    public function createUser(string $locale)
     {
         return view('admin.users.create');
     }
 
-    public function storeUser(Request $request)
+    public function storeUser(Request $request, string $locale)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -377,8 +401,8 @@ class SidebarPageController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        return redirect()->route('admin.users.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Pengguna berhasil dibuat.' : 'User created successfully.');
+        return redirect()->route('admin.users.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Pengguna berhasil dibuat.' : 'User created successfully.');
     }
 
     public function editUser(string $locale, User $user)
@@ -405,34 +429,38 @@ class SidebarPageController extends Controller
 
         $user->update($payload);
 
-        return redirect()->route('admin.users.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Pengguna berhasil diperbarui.' : 'User updated successfully.');
+        return redirect()->route('admin.users.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Pengguna berhasil diperbarui.' : 'User updated successfully.');
     }
 
     public function destroyUser(string $locale, User $user)
     {
         if (auth()->id() === $user->id) {
-            return redirect()->route('admin.users.index', ['locale' => app()->getLocale()])
-                ->with('error', app()->getLocale() === 'id' ? 'Anda tidak dapat menghapus akun sendiri.' : 'You cannot delete your own account.');
+            return redirect()->route('admin.users.index', ['locale' => $locale])
+                ->with('error', $locale === 'id' ? 'Anda tidak dapat menghapus akun sendiri.' : 'You cannot delete your own account.');
         }
 
         $user->delete();
 
-        return redirect()->route('admin.users.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Pengguna berhasil dihapus.' : 'User deleted successfully.');
+        return redirect()->route('admin.users.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Pengguna berhasil dihapus.' : 'User deleted successfully.');
     }
 
-    public function import()
+    /* =========================================================================
+     * IMPORT, EXPORT, SETTINGS
+     * ========================================================================= */
+
+    public function import(string $locale)
     {
         return view('admin.sidebar.import');
     }
 
-    public function export()
+    public function export(string $locale)
     {
         return view('admin.sidebar.export');
     }
 
-    public function settings()
+    public function settings(string $locale)
     {
         $menuItems = SiteMenu::orderBy('sort_order')->get();
         $aboutSettings = SiteAboutSetting::orderBy('sort_order')->get();
@@ -440,7 +468,7 @@ class SidebarPageController extends Controller
         return view('admin.sidebar.settings', compact('menuItems', 'aboutSettings'));
     }
 
-    public function updateSettings(Request $request)
+    public function updateSettings(Request $request, string $locale)
     {
         $menuItems = $request->input('menu', []);
         $aboutSettings = $request->input('about', []);
@@ -452,7 +480,6 @@ class SidebarPageController extends Controller
                 continue;
             }
 
-            $locale = app()->getLocale();
             $newLabel = $data['label'] ?? ($locale === 'id' ? ($data['label_id'] ?? $record->label_id) : ($data['label_en'] ?? $record->label_en));
 
             $record->update([
@@ -471,7 +498,6 @@ class SidebarPageController extends Controller
                 continue;
             }
 
-            $locale = app()->getLocale();
             $newValue = $data['value'] ?? ($locale === 'id' ? ($data['value_id'] ?? $record->value_id) : ($data['value_en'] ?? $record->value_en));
 
             $record->update([
@@ -481,7 +507,7 @@ class SidebarPageController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.settings.index', ['locale' => app()->getLocale()])
-            ->with('success', app()->getLocale() === 'id' ? 'Pengaturan menu dan halaman tentang berhasil diperbarui.' : 'Menu and about page settings updated successfully.');
+        return redirect()->route('admin.settings.index', ['locale' => $locale])
+            ->with('success', $locale === 'id' ? 'Pengaturan menu dan halaman tentang berhasil diperbarui.' : 'Menu and about page settings updated successfully.');
     }
 }

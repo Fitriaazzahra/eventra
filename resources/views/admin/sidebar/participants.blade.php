@@ -1,24 +1,24 @@
 @extends('layouts.admin')
 
-@section('title', __('messages.participants'))
-@section('breadcrumb', __('messages.participants'))
+@section('title', 'Peserta')
+@section('breadcrumb', 'Peserta')
 
 @section('content')
     <div class="eventra-heading-row">
         <div>
-            <h1>{{ __('messages.participants') }}</h1>
-            <p>{{ app()->getLocale() === 'id' ? 'Lihat daftar peserta, status pendaftaran, dan tipe tiket.' : 'View participant registrations, status, and ticket types.' }}</p>
+            <h1>Peserta</h1>
+            <p>Lihat daftar peserta, status pendaftaran, dan tipe tiket.</p>
         </div>
-        <a href="{{ route('admin.participants.create', ['locale' => app()->getLocale()]) }}" class="eventra-add-btn">{{ app()->getLocale() === 'id' ? 'Tambah Peserta' : 'Add Participant' }}</a>
+        <a href="{{ route('admin.participants.create', ['locale' => app()->getLocale()]) }}" class="eventra-add-btn">Tambah Peserta</a>
     </div>
 
     <div class="eventra-toolbar">
         <form method="GET" class="eventra-toolbar-form">
             <div class="eventra-search-wrap">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ app()->getLocale() === 'id' ? 'Cari peserta' : 'Search participants' }}...">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari peserta...">
             </div>
-            <button type="submit" class="eventra-search-btn">{{ __('messages.search') }}</button>
+            <button type="submit" class="eventra-search-btn">Cari</button>
         </form>
     </div>
 
@@ -26,19 +26,19 @@
         <div class="eventra-table-wrap">
             @if ($participants->isEmpty())
                 <div class="eventra-empty-state">
-                    <p>{{ app()->getLocale() === 'id' ? 'Belum ada data peserta.' : 'No participants available yet.' }}</p>
-                    <a href="{{ route('admin.participants.create', ['locale' => app()->getLocale()]) }}" class="eventra-add-btn eventra-add-btn-inline">{{ app()->getLocale() === 'id' ? 'Tambah Peserta' : 'Add Participant' }}</a>
+                    <p>Belum ada data peserta.</p>
+                    <a href="{{ route('admin.participants.create', ['locale' => app()->getLocale()]) }}" class="eventra-add-btn eventra-add-btn-inline">Tambah Peserta</a>
                 </div>
             @else
                 <div class="eventra-table-scroll">
                     <table class="eventra-table">
                         <thead>
                             <tr>
-                                <th>{{ app()->getLocale() === 'id' ? 'Nama' : 'Name' }}</th>
-                                <th>{{ app()->getLocale() === 'id' ? 'Acara' : 'Event' }}</th>
-                                <th>{{ app()->getLocale() === 'id' ? 'Tanggal Daftar' : 'Registration Date' }}</th>
-                                <th>{{ app()->getLocale() === 'id' ? 'Status' : 'Status' }}</th>
-                                <th class="align-right">{{ app()->getLocale() === 'id' ? 'Aksi' : 'Actions' }}</th>
+                                <th>Nama</th>
+                                <th>Acara</th>
+                                <th>Tanggal Daftar</th>
+                                <th>Status</th>
+                                <th class="align-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,14 +57,14 @@
                                     </td>
                                     <td>
                                         <div class="eventra-row-actions">
-                                            <a href="{{ route('admin.participants.edit', ['locale' => app()->getLocale(), 'participant' => $participant->id]) }}" class="eventra-row-action eventra-row-action-edit" title="{{ __('messages.edit') }}">
+                                            <a href="{{ route('admin.participants.edit', ['locale' => app()->getLocale(), 'participant' => $participant->id]) }}" class="eventra-row-action eventra-row-action-edit" title="Edit">
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5h2.5A1.5 1.5 0 0115 6.5V7m-6 0h-2A2 2 0 005 9v9a2 2 0 002 2h9a2 2 0 002-2v-2m-8 0l8-8m0 0v3.5M15 7l-8 8" /></svg>
                                             </a>
 
-                                            <form method="POST" action="{{ route('admin.participants.destroy', ['locale' => app()->getLocale(), 'participant' => $participant->id]) }}" onsubmit="return confirm('{{ app()->getLocale() === 'id' ? 'Yakin ingin menghapus peserta ini?' : 'Are you sure you want to delete this participant?' }}');">
+                                            <form id="delete-form-{{ $participant->id }}" method="POST" action="{{ route('admin.participants.destroy', ['locale' => app()->getLocale(), 'participant' => $participant->id]) }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="eventra-row-action eventra-row-action-delete" title="{{ __('messages.delete') }}">
+                                                <button type="button" class="eventra-row-action eventra-row-action-delete btn-delete" data-id="{{ $participant->id }}" title="Hapus">
                                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M3 7h18m-10 0V4a1 1 0 011-1h4a1 1 0 011 1v3" /></svg>
                                                 </button>
                                             </form>
@@ -78,4 +78,32 @@
             @endif
         </div>
     </div>
+
+    {{-- Script SweetAlert2 untuk menangani konfirmasi hapus --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.btn-delete').forEach(button => {
+                button.addEventListener('click', function () {
+                    const participantId = this.getAttribute('data-id');
+                    const form = document.getElementById('delete-form-' + participantId);
+
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Data peserta ini akan dihapus permanen!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection

@@ -2,7 +2,7 @@
 
 <article class="group overflow-hidden rounded-[22px] border border-border bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
     <div class="relative overflow-hidden">
-        <img src="{{ $event->cover_image ?: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80' }}" alt="{{ $event->name }}" class="h-56 w-full object-cover transition duration-300 group-hover:scale-105" />
+        <img src="{{ $event->cover_image ? Storage::url($event->cover_image) : 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80' }}" alt="{{ $event->name }}" class="h-56 w-full object-cover transition duration-300 group-hover:scale-105" />
         <div class="absolute left-4 top-4 inline-flex rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-primary-dark shadow-sm backdrop-blur-sm">
             {{ $event->category?->name ?? 'Event' }}
         </div>

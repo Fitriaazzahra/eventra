@@ -3,8 +3,9 @@
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\ImportController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SidebarPageController;
-use App\Http\Controllers\Admin\ImportController; // Tambahkan ini
 use App\Http\Controllers\Public\PublicPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,11 @@ Route::prefix('{locale}')->where(['locale' => 'id|en'])->middleware('setlocale')
         Route::middleware('auth')->group(function () {
             Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
             Route::resource('events', EventController::class)->except(['show']);
+
+            // Halaman Profil & Foto NAS
+            Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+            Route::post('profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
+            Route::get('profile/avatar', [ProfileController::class, 'showAvatar'])->name('profile.avatar.show');
 
             Route::get('categories', [SidebarPageController::class, 'categories'])->name('categories.index');
             Route::get('categories/create', [SidebarPageController::class, 'createCategory'])->name('categories.create');
@@ -70,15 +76,14 @@ Route::prefix('{locale}')->where(['locale' => 'id|en'])->middleware('setlocale')
 
             // Import & Export Data
             Route::get('import', [SidebarPageController::class, 'import'])->name('import.index');
-            Route::post('import', [ImportController::class, 'processImport'])->name('import.process'); // Diperbaiki
+            Route::post('import', [ImportController::class, 'processImport'])->name('import.process');
             Route::get('export', [SidebarPageController::class, 'export'])->name('export.index');
             Route::get('export/download', [ImportController::class, 'export'])->name('export.download');
-            
+
             Route::get('settings', [SidebarPageController::class, 'settings'])->name('settings.index');
             Route::post('settings', [SidebarPageController::class, 'updateSettings'])->name('settings.update');
         });
     });
-
 });
 
 Route::get('/', fn () => redirect('/id'));

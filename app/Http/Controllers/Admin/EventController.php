@@ -40,7 +40,21 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $data = $request->validated();
-        $data['event_code'] = 'EVT-' . str_pad((Event::max('id') ?? 0) + 1, 5, '0', STR_PAD_LEFT);
+
+        // Cari ID tertinggi termasuk record soft-deleted
+        $maxId = Event::withTrashed()->max('id') ?? 0;
+        $nextId = $maxId + 1;
+
+        // Loop untuk memastikan kode benar-benar unik di database
+        do {
+            $code = 'EVT-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
+            $exists = Event::withTrashed()->where('event_code', $code)->exists();
+            if ($exists) {
+                $nextId++;
+            }
+        } while ($exists);
+
+        $data['event_code'] = $code;
         $data['slug'] = Str::slug($data['name']) . '-' . Str::random(5);
         $data['created_by'] = auth()->id();
         $data['is_featured'] = $request->boolean('is_featured');
@@ -84,9 +98,10 @@ class EventController extends Controller
             ->with('success', app()->getLocale() === 'id' ? 'Acara berhasil diperbarui.' : 'Event updated successfully.');
     }
 
-    public function destroy(string $locale, Event $event)
+public function destroy(string $locale, Event $event)
     {
-        $event->delete();
+        // Menghapus data secara permanen dari database
+        $event->forceDelete();
 
         return redirect()
             ->route('admin.events.index', ['locale' => app()->getLocale()])

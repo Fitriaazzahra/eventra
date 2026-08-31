@@ -22,7 +22,7 @@
                 <p class="eventra-event-lead">{{ $event->description ?: 'A unique experience for people who love innovation, community, and meaningful connection.' }}</p>
 
                 <div class="eventra-event-hero-image">
-                    <img src="{{ $event->cover_image ?: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80' }}" alt="{{ $event->name }}" />
+                    <img src="{{ $event->cover_image ? Storage::url($event->cover_image) : 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80' }}" alt="{{ $event->name }}" />
                 </div>
 
                 <div class="eventra-event-content">
@@ -80,9 +80,6 @@
                         <div class="eventra-event-venue-card">
                             <h3>{{ $event->venue?->name ?? 'Event venue' }}</h3>
                             <p>{{ $event->venue?->address ?? 'Main hall' }}, {{ $event->venue?->city ?? 'Jakarta' }}</p>
-                            <div class="eventra-event-map-placeholder">
-                                Map placeholder
-                            </div>
                         </div>
                     </section>
                 </div>

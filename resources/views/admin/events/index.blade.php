@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('title', __('messages.events'))
@@ -124,9 +125,18 @@
                                         <a href="{{ route('admin.events.edit', ['locale' => app()->getLocale(), 'event' => $event->id]) }}" class="eventra-row-action eventra-row-action-edit" title="{{ __('messages.edit') }}">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.5-9.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 6.5-6.5z" /></svg>
                                         </a>
-                                        <button type="button" x-data @click="$dispatch('open-delete-modal', { id: '{{ $event->id }}', name: '{{ $event->name }}' })" class="eventra-row-action eventra-row-action-delete" title="{{ __('messages.delete') }}">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M3 7h18m-10 0V4a1 1 0 011-1h4a1 1 0 011 1v3" /></svg>
-                                        </button>
+                                        
+                                        <!-- Form Hapus Langsung Memicu SweetAlert2 -->
+                                        <form action="{{ route('admin.events.destroy', ['locale' => app()->getLocale(), 'event' => $event->id]) }}" 
+                                              method="POST" 
+                                              class="delete-form inline-block" 
+                                              data-name="{{ $event->name }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="eventra-row-action eventra-row-action-delete" title="{{ __('messages.delete') }}">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M3 7h18m-10 0V4a1 1 0 011-1h4a1 1 0 011 1v3" /></svg>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -142,27 +152,5 @@
                 </div>
             </div>
         @endif
-    </div>
-
-    <div x-data="{ open: false, eventId: null, eventName: '' }"
-         @open-delete-modal.window="open = true; eventId = $event.detail.id; eventName = $event.detail.name"
-         x-show="open" x-cloak
-         class="eventra-modal-root">
-        <div class="eventra-modal-backdrop" @click="open = false"></div>
-        <div class="eventra-modal-panel">
-            <h3>{{ app()->getLocale() === 'id' ? 'Konfirmasi Hapus' : 'Confirm Delete' }}</h3>
-            <p>
-                {{ app()->getLocale() === 'id' ? 'Apakah Anda yakin ingin menghapus data ini?' : 'Are you sure you want to delete this data?' }}
-                <span x-text="eventName"></span>
-            </p>
-            <div class="eventra-modal-actions">
-                <form :action="'{{ url(app()->getLocale() . '/admin/events') }}/' + eventId" method="POST" class="eventra-delete-form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="eventra-delete-btn">{{ __('messages.delete') }}</button>
-                </form>
-                <button type="button" @click="open = false" class="eventra-cancel-btn">{{ __('messages.cancel') }}</button>
-            </div>
-        </div>
     </div>
 @endsection

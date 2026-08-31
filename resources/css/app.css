@@ -3940,3 +3940,20 @@ select {
     border-radius: 8px;
     margin-bottom: 12px;
 }
+.eventra-events-search,
+.eventra-events-sidebar,
+.eventra-event-hero-image,
+.eventra-event-register-card,
+.eventra-speaker-card,
+.eventra-about-card,
+.eventra-profile-summary,
+.eventra-profile-panel,
+.eventra-home-frame,
+.eventra-home-search-card,
+.public-brand-mark,
+.public-locale-btn.is-active,
+.public-cta-btn,
+.eventra-primary-button {
+  box-shadow: none !important;
+}
+

@@ -61,13 +61,24 @@
                         <span class="dot"></span>
                     </button>
 
-                    <div class="eventra-user">
-                        <div class="eventra-user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                    <!-- User Link ke Halaman Profil Khusus -->
+                    <a href="{{ route('admin.profile.index', ['locale' => app()->getLocale()]) }}" class="eventra-user" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                        @if (auth()->user()->avatar && \Illuminate\Support\Facades\Storage::disk('nas')->exists(auth()->user()->avatar))
+                            <img src="{{ route('admin.profile.avatar.show', ['locale' => app()->getLocale()]) }}" 
+                                 alt="{{ auth()->user()->name }}" 
+                                 class="eventra-user-avatar" 
+                                 style="object-fit: cover; border-radius: 50%; width: 36px; height: 36px;">
+                        @else
+                            <div class="eventra-user-avatar" style="width: 36px; height: 36px; border-radius: 50%; background: #6366f1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            </div>
+                        @endif
+
                         <div class="eventra-user-meta">
                             <span class="eventra-user-name">{{ auth()->user()->name }}</span>
                             <span class="eventra-user-role">Admin</span>
                         </div>
-                    </div>
+                    </a>
 
                     <form method="POST" action="{{ route('admin.logout', ['locale' => app()->getLocale()]) }}">
                         @csrf
@@ -78,7 +89,7 @@
 
             <main class="eventra-page">
                 @if (session('success'))
-                    <div class="eventra-alert" id="eventra-flash-alert" role="alert">
+                    <div class="eventra-alert" id="eventra-flash-alert" role="alert" style="margin-bottom: 20px; padding: 12px 16px; background: #dcfce7; color: #15803d; border-radius: 8px;">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -86,5 +97,68 @@
             </main>
         </div>
     </div>
+
+    <!-- SweetAlert2 CDN & Handler Hapus Modern -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Intersept penekanan submit pada form hapus
+            document.addEventListener('submit', function (e) {
+                const form = e.target;
+                
+                // Periksa apakah form merupakan form DELETE (punya _method DELETE atau class delete-form)
+                const isDeleteForm = form.classList.contains('delete-form') || 
+                                     form.querySelector('input[name="_method"][value="DELETE"]');
+
+                if (isDeleteForm && !form.dataset.confirmed) {
+                    e.preventDefault();
+                    
+                    const itemName = form.dataset.name || 'data ini';
+
+                    Swal.fire({
+                        title: 'Konfirmasi Hapus',
+                        html: `Apakah Anda yakin ingin menghapus <b>"${itemName}"</b>?<br><span style="font-size: 0.85em; color: #6b7280; margin-top: 4px; display: inline-block;">Data yang dihapus tidak dapat dikembalikan.</span>`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ef4444',
+                        cancelButtonColor: '#9ca3af',
+                        confirmButtonText: 'Ya, Hapus Data',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                        customClass: {
+                            popup: 'eventra-sweet-popup',
+                            confirmButton: 'eventra-sweet-confirm',
+                            cancelButton: 'eventra-sweet-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.dataset.confirmed = "true";
+                            form.submit();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- Custom Styling untuk Popup SweetAlert2 agar Serasi dengan Theme Eventra -->
+    <style>
+        .eventra-sweet-popup {
+            border-radius: 20px !important;
+            padding: 24px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        .eventra-sweet-confirm {
+            border-radius: 10px !important;
+            padding: 10px 20px !important;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25) !important;
+        }
+        .eventra-sweet-cancel {
+            border-radius: 10px !important;
+            padding: 10px 20px !important;
+            font-weight: 600 !important;
+        }
+    </style>
 </body>
 </html>

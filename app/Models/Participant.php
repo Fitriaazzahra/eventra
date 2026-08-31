@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// Hapus import SoftDeletes di sini
 
 class Participant extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory; // Hapus SoftDeletes di sini
 
     protected $fillable = [
         'participant_code', 

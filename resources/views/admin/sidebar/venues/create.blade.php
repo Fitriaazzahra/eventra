@@ -38,6 +38,7 @@
                         <div class="eventra-form-field">
                             <label>{{ app()->getLocale() === 'id' ? 'Kota' : 'City' }} *</label>
                             <input type="text" name="city" value="{{ old('city') }}" class="eventra-form-input" required>
+                            @error('city') <p class="eventra-form-error">{{ $message }}</p> @enderror
                         </div>
                         <div class="eventra-form-field">
                             <label>{{ app()->getLocale() === 'id' ? 'Provinsi' : 'Province' }}</label>
@@ -60,18 +61,7 @@
 
             <div class="eventra-form-side-column">
                 <div class="eventra-form-card">
-                    <h3>{{ app()->getLocale() === 'id' ? 'Koordinat & Status' : 'Coordinates & Status' }}</h3>
-
-                    <div class="eventra-form-grid">
-                        <div class="eventra-form-field">
-                            <label>Latitude</label>
-                            <input type="number" step="0.0000001" name="latitude" value="{{ old('latitude') }}" class="eventra-form-input">
-                        </div>
-                        <div class="eventra-form-field">
-                            <label>Longitude</label>
-                            <input type="number" step="0.0000001" name="longitude" value="{{ old('longitude') }}" class="eventra-form-input">
-                        </div>
-                    </div>
+                    <h3>{{ app()->getLocale() === 'id' ? 'Status & Deskripsi' : 'Status & Description' }}</h3>
 
                     <div class="eventra-form-field">
                         <label>{{ app()->getLocale() === 'id' ? 'Deskripsi' : 'Description' }}</label>

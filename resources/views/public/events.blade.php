@@ -13,7 +13,7 @@
         <div class="eventra-events-search">
             <div class="eventra-events-search-field">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" placeholder="{{ app()->getLocale() === 'id' ? 'Cari acara, topik, atau lokasi' : 'Search events, topics, or locations' }}" />
+                <input type="text" placeholder="{{ app()->getLocale() === 'id' ? 'Cari acara atau topik' : 'Search events or topics' }}" />
             </div>
             <button type="button">
                 {{ app()->getLocale() === 'id' ? 'Cari' : 'Search' }}
@@ -37,20 +37,6 @@
                             </label>
                         @endforeach
                     </div>
-                </div>
-
-                <div class="eventra-events-filter-group">
-                    <label>{{ app()->getLocale() === 'id' ? 'Lokasi' : 'Location' }}</label>
-                    <select>
-                        <option>{{ app()->getLocale() === 'id' ? 'Pilih lokasi' : 'Select location' }}</option>
-                    </select>
-                </div>
-
-                <div class="eventra-events-filter-group">
-                    <label>{{ app()->getLocale() === 'id' ? 'Tanggal' : 'Date' }}</label>
-                    <select>
-                        <option>{{ app()->getLocale() === 'id' ? 'Semua tanggal' : 'Any date' }}</option>
-                    </select>
                 </div>
             </aside>
 

@@ -56,7 +56,8 @@
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5h2.5A1.5 1.5 0 0115 6.5V7m-6 0h-2A2 2 0 005 9v9a2 2 0 002 2h9a2 2 0 002-2v-2m-8 0l8-8m0 0v3.5M15 7l-8 8" /></svg>
                                             </a>
 
-                                            <form method="POST" action="{{ route('admin.speakers.destroy', ['locale' => app()->getLocale(), 'speaker' => $speaker->id]) }}" onsubmit="return confirm('{{ app()->getLocale() === 'id' ? 'Yakin ingin menghapus pembicara ini?' : 'Are you sure you want to delete this speaker?' }}');">
+                                            <!-- Form Hapus Standard disesuaikan dengan SweetAlert global -->
+                                            <form method="POST" action="{{ route('admin.speakers.destroy', ['locale' => app()->getLocale(), 'speaker' => $speaker->id]) }}" class="delete-form" data-name="Pembicara {{ $speaker->name }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="eventra-row-action eventra-row-action-delete" title="{{ __('messages.delete') }}">
